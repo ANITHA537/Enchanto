@@ -4,84 +4,178 @@ import { shopDataContext } from '../context/ShopContext'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import open from "../assets/open.mp3"
+
 function Ai() {
-  let {showSearch , setShowSearch} = useContext(shopDataContext)
+  let { showSearch, setShowSearch, setSearch } = useContext(shopDataContext)
   let navigate = useNavigate()
-  let [activeAi,setActiveAi] = useState(false)
+  let [activeAi, setActiveAi] = useState(false)
   let openingSound = new Audio(open)
 
- function speak(message){
-let utterence=new SpeechSynthesisUtterance(message)
-window.speechSynthesis.speak(utterence)
+  function speak(message) {
+    let utterence = new SpeechSynthesisUtterance(message)
+    window.speechSynthesis.speak(utterence)
   }
 
-
-  const speechRecognition=window.SpeechRecognition || window.webkitSpeechRecognition
+  const speechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
   const recognition = new speechRecognition()
-   if(!recognition){
-    console.log("not supported")
+
+  if (!recognition) {
+    console.log("Speech recognition not supported")
   }
 
-  recognition.onresult = (e)=>{
-    const transcript = e.results[0][0].transcript.trim();
- if(transcript.toLowerCase().includes("search") && transcript.toLowerCase().includes("open") && !showSearch){
-      speak("opening search")
-      setShowSearch(true) 
-      navigate("/collection")
-    }
-    else if(transcript.toLowerCase().includes("search") && transcript.toLowerCase().includes("close") && showSearch){
-      speak("closing search")
-      setShowSearch(false) 
-      
-    }
-     else if(transcript.toLowerCase().includes("collection") || transcript.toLowerCase().includes("collections") || transcript.toLowerCase().includes("product") || transcript.toLowerCase().includes("products")){
-      speak("opening collection page")
-      navigate("/collection")
-    }
-    else if(transcript.toLowerCase().includes("about") || transcript.toLowerCase().includes("aboutpage") ){
-      speak("opening about page")
-      navigate("/about")
-      setShowSearch(false) 
-    }
-     else if(transcript.toLowerCase().includes("home") || transcript.toLowerCase().includes("homepage") ){
-      speak("opening home page")
-      navigate("/")
-      setShowSearch(false) 
-    }
-     else if(transcript.toLowerCase().includes("cart")  || transcript.toLowerCase().includes("kaat")  || transcript.toLowerCase().includes("caat")){
-      speak("opening your cart")
-      navigate("/cart")
-      setShowSearch(false) 
-    }
-    else if(transcript.toLowerCase().includes("contact")){
-      speak("opening contact page")
-      navigate("/contact")
-      setShowSearch(false) 
-    }
-   
-     else if(transcript.toLowerCase().includes("order") || transcript.toLowerCase().includes("myorders") || transcript.toLowerCase().includes("orders") || transcript.toLowerCase().includes("my order")){
-      speak("opening your orders page")
-      navigate("/order")
-      setShowSearch(false) 
-    }
-    else{
-      toast.error("Try Again")
+  recognition.onresult = (e) => {
+    const transcript = e.results[0][0].transcript.trim().toLowerCase();
+    console.log("USER SAID:", transcript);
+
+    // -----------------------------------
+    // 🔥 PRODUCT CATEGORY DETECTION
+    // -----------------------------------
+    const categoryKeywords = {
+      floral: ["floral", "flowers", "rose", "lily", "bloom"],
+      fruity: ["fruity", "fruit", "berry", "mango", "apple"],
+      woody: ["woody", "wood", "cedar", "sandal", "oud"],
+      fresh: ["fresh", "clean", "aqua", "ocean"],
+      vanilla: ["vanilla", "sweet"],
+      bold: ["strong", "bold", "powerful"],
+      office: ["ceo", "office", "formal"],
+    };
+
+    // -----------------------------------
+    // 🔥 MOOD-BASED PERFUME SUGGESTIONS
+    // -----------------------------------
+    const moodMap = {
+      romantic: "floral",
+      calm: "fresh",
+      energetic: "fruity",
+      luxury: "woody",
+      elegant: "vanilla",
+      bold: "bold",
+      relaxing: "fresh"
+    };
+
+    for (const mood in moodMap) {
+      if (transcript.includes(mood)) {
+        const mappedCategory = moodMap[mood];
+        speak(`Showing ${mood} perfumes for you`);
+        setSearch(mappedCategory);
+        navigate("/collection");
+        setShowSearch(false);
+        return;
+      }
     }
 
-  }
-  recognition.onend=()=>{
-   setActiveAi(false)
-  }
+    // -----------------------------------
+    // 🔥 OCCASION-BASED PERFUME COMMANDS
+    // -----------------------------------
+    const occasionMap = {
+      "date": "floral",
+      "date night": "floral",
+      "romantic": "floral",
+      "office": "office",
+      "work": "office",
+      "meeting": "office",
+      "party": "bold",
+      "wedding": "vanilla",
+      "gym": "fresh",
+      "college": "fruity",
+      "daily": "fresh",
+      "evening": "woody",
+      "night out": "bold"
+    };
+
+    for (const occasion in occasionMap) {
+      if (transcript.includes(occasion)) {
+        const mappedCategory = occasionMap[occasion];
+        speak(`Perfect choice! Showing perfumes for ${occasion}`);
+        setSearch(mappedCategory);
+        navigate("/collection");
+        setShowSearch(false);
+        return;
+      }
+    }
+
+    // -----------------------------------
+    // EXISTING COMMANDS
+    // -----------------------------------
+    if (transcript.includes("search") && transcript.includes("open") && !showSearch) {
+      speak("Opening search");
+      setShowSearch(true);
+      navigate("/collection");
+    }
+
+    else if (transcript.includes("search") && transcript.includes("close") && showSearch) {
+      speak("Closing search");
+      setShowSearch(false);
+    }
+
+    else if (transcript.includes("collection") || transcript.includes("products")) {
+      speak("Opening collection page");
+      navigate("/collection");
+    }
+
+    else if (transcript.includes("about")) {
+      speak("Opening about page");
+      navigate("/about");
+      setShowSearch(false);
+    }
+
+    else if (transcript.includes("home")) {
+      speak("Opening home page");
+      navigate("/");
+      setShowSearch(false);
+    }
+
+    else if (transcript.includes("cart")) {
+      speak("Opening your cart");
+      navigate("/cart");
+      setShowSearch(false);
+    }
+
+    else if (transcript.includes("contact")) {
+      speak("Opening contact page");
+      navigate("/contact");
+      setShowSearch(false);
+    }
+
+    else if (transcript.includes("order") || transcript.includes("orders")) {
+      speak("Opening your orders page");
+      navigate("/order");
+      setShowSearch(false);
+    }
+
+    else {
+      toast.error("Try again");
+      speak("Sorry, I didn't understand. Please try again.");
+    }
+  };
+
+  recognition.onend = () => {
+    setActiveAi(false);
+  };
+
   return (
-    <div className='fixed lg:bottom-[20px] md:bottom-[40px] bottom-[80px] left-[2%] ' onClick={()=>{recognition.start();
-    openingSound.play()
-    setActiveAi(true)
-    }}>
-      <img src={ai} alt="" className={`w-[100px] cursor-pointer ${activeAi ? 'translate-x-[10%] translate-y-[-10%] scale-125 ' : 'translate-x-[0] translate-y-[0] scale-100'} transition-transform` } style={{
-        filter: ` ${activeAi?"drop-shadow(0px 0px 30px #00d2fc)":"drop-shadow(0px 0px 20px black)"}`
-      }}/>
+    <div
+      className="fixed lg:bottom-[20px] md:bottom-[40px] bottom-[80px] left-[2%]"
+      onClick={() => {
+        recognition.start();
+        openingSound.play();
+        setActiveAi(true);
+      }}
+    >
+      <img
+        src={ai}
+        alt=""
+        className={`w-[100px] cursor-pointer ${
+          activeAi ? "translate-x-[10%] translate-y-[-10%] scale-125" : "scale-100"
+        } transition-transform`}
+        style={{
+          filter: activeAi
+            ? "drop-shadow(0px 0px 30px #00d2fc)"
+            : "drop-shadow(0px 0px 20px black)",
+        }}
+      />
     </div>
-  )
+  );
 }
 
-export default Ai
+export default Ai;
