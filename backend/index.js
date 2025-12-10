@@ -17,7 +17,7 @@ let port=process.env.PORT || 6000;
 let app=express()
 
 app.use(cors({
-  origin: ["http://localhost:5173","http://localhost:5174"],
+  origin: ["https://enchanto-frontend.onrender.com","http://localhost:5174"],
   credentials: true
 }));
 app.use((req, res, next) => {
