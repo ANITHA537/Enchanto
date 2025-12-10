@@ -10,11 +10,20 @@ function ProductDetail() {
   const { products, currency, addtoCart, loading } = useContext(shopDataContext);
   const [productData, setProductData] = useState(null);
   const [selectedSize, setSelectedSize] = useState("");
+  const [rating, setRating] = useState(0);
+
 
   useEffect(() => {
-    const data = products.find((item) => item._id === productId);
-    if (data) setProductData(data);
-  }, [productId, products]);
+  const data = products.find((item) => item._id === productId);
+  if (data) {
+    setProductData(data);
+
+    // ⭐ Generate random rating between 4.0 – 5.0
+    const randomRating = (Math.random() * (5 - 4) + 4).toFixed(1);
+    setRating(Number(randomRating));
+  }
+}, [productId, products]);
+
 
   if (!productData) return <div className="opacity-0"></div>;
 
@@ -41,15 +50,16 @@ function ProductDetail() {
           </h1>
 
           {/* RATINGS */}
-          <div className="flex items-center gap-1 text-[#B8860B]">
-            {Array.from({ length: Math.floor(productData.rating || 4) }).map((_, i) => (
-              <FaStar key={i} className="text-[20px]" />
-            ))}
-            {productData.rating % 1 !== 0 && <FaStarHalfAlt className="text-[20px]" />}
-            <span className="text-black text-[16px] ml-[6px]">
-              ( {productData.rating} / 5 )
-            </span>
-          </div>
+         <div className="flex items-center gap-1 text-[#B8860B]">
+  {Array.from({ length: Math.floor(rating) }).map((_, i) => (
+    <FaStar key={i} className="text-[20px]" />
+  ))}
+  {rating % 1 !== 0 && <FaStarHalfAlt className="text-[20px]" />}
+  <span className="text-black text-[16px] ml-[6px]">
+    ( {rating} / 5 )
+  </span>
+</div>
+
 
           {/* PRICE */}
           <p className="text-[34px] font-semibold text-black">
