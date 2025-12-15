@@ -4,9 +4,10 @@ import { shopDataContext } from "../context/ShopContext";
 import { useNavigate } from "react-router-dom";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import CartTotal from "../component/CartTotal";
+import { trackBeginCheckout } from "../utils/analytics";
 
 function Cart() {
-  const { products, currency, cartItem, updateQuantity } = useContext(shopDataContext);
+ const { products, currency, cartItem, updateQuantity, calculatePrice, getCartAmount } = useContext(shopDataContext);
   const [cartData, setCartData] = useState([]);
   const navigate = useNavigate();
 
@@ -39,7 +40,7 @@ function Cart() {
         {cartData.map((item, idx) => {
           const productData = products.find((p) => p._id === item.productId);
           if (!productData) return null;
-
+           const price = calculatePrice(productData.price, item.size);
           return (
             <div
               key={idx}
@@ -59,7 +60,7 @@ function Cart() {
                 </p>
 
                 <p className="text-[18px] font-semibold text-[#66e0c2]">
-                  {currency} {productData.price}
+                  {currency} {price}
                 </p>
 
                 <p className="w-[50px] h-[35px] text-[16px] bg-[#f5f5f5] border border-[#ccc] rounded-md flex items-center justify-center">
@@ -90,17 +91,18 @@ function Cart() {
 
       {/* Checkout Section */}
       <div className='flex justify-start items-end my-20'>
-  <div className='w-full sm:w-[450px]'>
-      <CartTotal/>
-      <button className='text-[18px] hover:bg-slate-500 cursor-pointer bg-[#B8860B] py-[10px] px-[50px] rounded-2xl text-white flex items-center justify-center gap-[20px]  border-[1px] border-[#80808049] ml-[30px] mt-[20px]' onClick={()=>{
-          if (cartData.length > 0) {
-            navigate("/placeorder");
-          }
-      }}>
-          PROCEED TO CHECKOUT
-      </button>
-  </div>
-</div>
+<div className='w-full sm:w-[450px]'>
+          <CartTotal />
+          <button className='text-[18px] hover:bg-slate-500 cursor-pointer bg-[#B8860B] py-[10px] px-[50px] rounded-2xl text-white flex items-center justify-center gap-[20px]  border-[1px] border-[#80808049] ml-[30px] mt-[20px]' onClick={() => {
+            if (cartData.length > 0) {
+              trackBeginCheckout(cartData, getCartAmount());
+              navigate("/placeorder");
+            }
+          }}>
+            PROCEED TO CHECKOUT
+          </button>
+        </div>
+      </div>
 
     </div>
   );
