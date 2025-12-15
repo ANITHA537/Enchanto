@@ -8,6 +8,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Loading from "../component/Loading";
+import { trackPurchase } from "../utils/analytics";
 
 function PlaceOrder() {
   let [method, setMethod] = useState("cod");
@@ -107,6 +108,7 @@ function PlaceOrder() {
 
         if (result.data) {
           toast.success("Order Placed");
+            trackPurchase(result.data.orderId || Date.now(), getCartAmount(), orderItems);
           setCartItem({});
           navigate("/order");
         }
@@ -200,9 +202,8 @@ function PlaceOrder() {
         <div className="flex gap-5 mt-5">
           <button
             onClick={() => setMethod("razorpay")}
-            className={`w-[150px] h-[60px] rounded-lg border shadow-md ${
-              method === "razorpay" ? "border-[#00c7a5]" : "border-gray-300"
-            }`}
+             className={`w-[150px] h-[60px] rounded-lg border shadow-md ${method === "razorpay" ? "border-[#00c7a5]" : "border-gray-300"
+              }`}
           >
             <img src={razorpay} className="w-full h-full object-cover" />
           </button>
