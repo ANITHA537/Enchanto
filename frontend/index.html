@@ -1,32 +1,37 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/jpeg" href="/logo.jpg" />
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Enchanto</title>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17387695059"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
 
-      // Google Ads
-      gtag('config', 'AW-17387695059');
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/jpeg" href="/logo.jpg" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Lato:wght@300;400;700&family=Playfair+Display:wght@400;600;700&display=swap"
+    rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Enchanto</title>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17387695059"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
 
-      // 🔹 Google Analytics 4 (replace with your Measurement ID)
-      gtag('config', 'G-KXJ016NQZ6');
-    </script>
+    // Google Ads
+    gtag('config', 'AW-17387695059');
 
-    <!-- Event snippet for Page view conversion page -->
-<script>
-  gtag('event', 'conversion', {'send_to': 'AW-17387695059/S5tBCJPZnvoaENPXjONA'});
-</script>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-  </body>
+    // 🔹 Google Analytics 4 (replace with your Measurement ID)
+    gtag('config', 'G-KXJ016NQZ6');
+  </script>
+
+  <!-- Event snippet for Page view conversion page -->
+  <script>
+    gtag('event', 'conversion', { 'send_to': 'AW-17387695059/S5tBCJPZnvoaENPXjONA' });
+  </script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</body>
+
 </html>
