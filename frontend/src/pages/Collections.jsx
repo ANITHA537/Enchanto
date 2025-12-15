@@ -233,7 +233,7 @@ function Collections() {
             className="text-[40px] tracking-wide text-center"
             style={{ fontFamily: "Great Vibes, cursive", color: "#B8860B" }}
           >
-             Perfume <span className="text-[#1a1a1a]">Collections</span>>
+             Perfume <span className="text-[#1a1a1a]">Collections</span>
           </h1>
 
           <select
