@@ -25,7 +25,7 @@ export const registration = async (req, res) => {
             sameSite: "none",
             maxAge: 7 * 24 * 60 * 60 * 1000
         })
-        return res.status(201).json(user)
+        return res.status(201).json({ user, token })
     }
     catch (error) {
         console.log("Registration error", error.message)
@@ -52,7 +52,7 @@ export const login = async (req, res) => {
             sameSite: "none",
             maxAge: 7 * 24 * 60 * 60 * 1000
         })
-        return res.status(201).json(user)
+        return res.status(201).json({ user, token })
     } catch (error) {
         console.log("Registration error", error.message)
         return res.status(500).json({ message: `Registration error ${error}` });
@@ -86,7 +86,7 @@ export const googleLogin = async (req, res) => {
             sameSite: "none",
             maxAge: 7 * 24 * 60 * 60 * 1000
         })
-        return res.status(201).json(user)
+        return res.status(201).json({ user, token })
     } catch (error) {
         console.log("Google Login Error", error.message)
         return res.status(500).json({ message: `Google Login error ${error}` });
