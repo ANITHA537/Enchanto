@@ -1,1 +1,30 @@
 @import "tailwindcss";
+
+@import "tailwindcss";
+
+@theme {
+    --font-sans: "Lato", sans-serif;
+    --font-serif: "Playfair Display", serif;
+
+    --color-gold: #B8860B;
+    --color-gold-light: #DAA520;
+    --color-gold-dark: #8B6508;
+    --color-dark: #1a1a1a;
+    --color-light: #f9f9f9;
+}
+
+body {
+    font-family: var(--font-sans);
+    background-color: var(--color-light);
+    color: var(--color-dark);
+    overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-serif);
+}
