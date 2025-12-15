@@ -7,22 +7,35 @@ import Loading from "../component/Loading";
 
 function ProductDetail() {
   const { productId } = useParams();
-  const { products, currency, addtoCart, loading } = useContext(shopDataContext);
+    const { products, currency, addtoCart, loading, calculatePrice } = useContext(shopDataContext);
   const [productData, setProductData] = useState(null);
-  const [selectedSize, setSelectedSize] = useState("");
+   const [selectedSize, setSelectedSize] = useState("50ml");
   const [rating, setRating] = useState(0);
+   const [displayPrice, setDisplayPrice] = useState(0);
 
 
   useEffect(() => {
   const data = products.find((item) => item._id === productId);
-  if (data) {
-    setProductData(data);
+    if (data) {
+      setProductData(data);
+      setDisplayPrice(data.price);
+      
+      // Track View Item
+      // trackViewItem(data); // Uncomment when analytics is ready
 
-    // ⭐ Generate random rating between 4.0 – 5.0
-    const randomRating = (Math.random() * (5 - 4) + 4).toFixed(1);
-    setRating(Number(randomRating));
-  }
-}, [productId, products]);
+   // ⭐ Generate random rating between 4.0 – 5.0
+      const randomRating = (Math.random() * (5 - 4) + 4).toFixed(1);
+      setRating(Number(randomRating));
+    }
+  }, [productId, products]);
+
+   useEffect(() => {
+    if (productData) {
+      const newPrice = calculatePrice(productData.price, selectedSize);
+      setDisplayPrice(newPrice);
+    }
+  }, [selectedSize, productData, calculatePrice]);
+
 
 
   if (!productData) return <div className="opacity-0"></div>;
@@ -31,39 +44,40 @@ function ProductDetail() {
     <div className="w-full bg-white flex flex-col items-center overflow-x-hidden pt-[120px]">
 
       {/* MAIN PRODUCT SECTION */}
-      <div className="w-[90%] max-w-[1350px] flex flex-col lg:flex-row justify-center gap-[60px] mb-[80px]">
+     <div className="w-[90%] max-w-[1350px] flex flex-col lg:flex-row justify-center gap-[80px] mb-[80px]">
 
         {/* IMAGE */}
-        <div className="lg:w-[45%] w-full flex justify-center">
+        <div className="lg:w-[45%] w-full flex justify-center bg-gray-50 rounded-xl p-10">
           <img
             src={productData.image}
-            className="w-[80%] max-w-[480px] rounded-md shadow-lg"
+           className="w-full max-w-[500px] object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-500"
             alt={productData.name}
           />
         </div>
 
         {/* PRODUCT INFO */}
-        <div className="lg:w-[50%] w-full flex flex-col gap-[14px] text-[#222]">
+        <div className="lg:w-[50%] w-full flex flex-col gap-[20px] text-[#222]">
 
-          <h1 className="text-[42px] font-semibold text-[#B8860B] tracking-wide">
+          <h1 className="text-[48px] font-serif font-bold text-[#1a1a1a] tracking-tight leading-tight">
             {productData.name}
           </h1>
 
           {/* RATINGS */}
-         <div className="flex items-center gap-1 text-[#B8860B]">
-  {Array.from({ length: Math.floor(rating) }).map((_, i) => (
-    <FaStar key={i} className="text-[20px]" />
-  ))}
-  {rating % 1 !== 0 && <FaStarHalfAlt className="text-[20px]" />}
-  <span className="text-black text-[16px] ml-[6px]">
-    ( {rating} / 5 )
-  </span>
-</div>
-
+         <div className="flex items-center gap-2 text-[#B8860B]">
+            <div className="flex">
+              {Array.from({ length: Math.floor(rating) }).map((_, i) => (
+                <FaStar key={i} className="text-[22px]" />
+              ))}
+              {rating % 1 !== 0 && <FaStarHalfAlt className="text-[22px]" />}
+            </div>
+            <span className="text-gray-500 text-[16px] ml-[6px] font-medium">
+              ({rating} / 5.0 based on 124 reviews)
+            </span>
+          </div>
 
           {/* PRICE */}
           <p className="text-[34px] font-semibold text-black">
-            {currency} {productData.price}
+            {currency} {displayPrice}
           </p>
 
           {/* DESCRIPTION */}
@@ -89,7 +103,7 @@ function ProductDetail() {
           <div className="flex flex-col gap-[10px] mt-[14px]">
             <p className="text-[20px] font-semibold text-[#B8860B]">Select Size</p>
             <div className="flex gap-2 flex-wrap">
-              {productData.sizes.map((item, i) => (
+               {["50ml", "100ml", "200ml"].map((item, i) => (
                 <button
                   key={i}
                   onClick={() => setSelectedSize(item)}
