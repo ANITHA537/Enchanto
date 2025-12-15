@@ -12,7 +12,10 @@ function UserContext({ children }) {
     try {
       const result = await axios.get(
         serverUrl + "/api/user/getcurrentuser",
-        { withCredentials: true }
+        {
+          withCredentials: true,
+          headers: { token: localStorage.getItem("token") }
+        }
       );
       setUserData(result.data)
       console.log(result.data)
