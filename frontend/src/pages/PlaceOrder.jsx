@@ -106,7 +106,10 @@ function PlaceOrder() {
         const result = await axios.post(
           serverUrl + "/api/order/placeorder",
           orderData,
-          { withCredentials: true }
+          {
+            withCredentials: true,
+            headers: { token: localStorage.getItem("token") }
+          }
         );
 
         if (result.data) {
@@ -122,7 +125,10 @@ function PlaceOrder() {
         const result = await axios.post(
           serverUrl + "/api/order/razorpay",
           orderData,
-          { withCredentials: true }
+          {
+            withCredentials: true,
+            headers: { token: localStorage.getItem("token") }
+          }
         );
 
         if (result.data) {
