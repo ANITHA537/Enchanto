@@ -47,7 +47,7 @@ function Nav() {
   };
 
   return (
-    <div className="w-full h-[75px] bg-[white] fixed top-0 z-50 shadow-sm flex items-center justify-between px-[45px]">
+    <div className="w-full h-[75px] bg-white/90 backdrop-blur-md fixed top-0 z-50 shadow-sm flex items-center justify-between px-[45px] transition-all duration-300">
 
       {/* LOGO */}
       <div
@@ -70,28 +70,28 @@ function Nav() {
         <ul className="flex items-center gap-[20px]">
 
           <li
-            className="px-[20px] py-[6px] bg-[#B8860B] rounded-md cursor-pointer hover:bg-[#a47709] text-white"
+            className="text-[15px] font-medium text-gray-800 hover:text-[#B8860B] cursor-pointer transition-colors duration-300 uppercase tracking-wide"
             onClick={() => navigate("/")}
           >
             HOME
           </li>
 
           <li
-            className="px-[20px] py-[6px] bg-[#B8860B] rounded-md cursor-pointer hover:bg-[#a47709] text-white"
+            className="text-[15px] font-medium text-gray-800 hover:text-[#B8860B] cursor-pointer transition-colors duration-300 uppercase tracking-wide"
             onClick={() => navigate("/collection")}
           >
             COLLECTIONS
           </li>
 
           <li
-            className="px-[20px] py-[6px] bg-[#B8860B] rounded-md cursor-pointer hover:bg-[#a47709] text-white"
+            className="text-[15px] font-medium text-gray-800 hover:text-[#B8860B] cursor-pointer transition-colors duration-300 uppercase tracking-wide"
             onClick={() => navigate("/about")}
           >
             ABOUT
           </li>
 
           <li
-            className="px-[20px] py-[6px] bg-[#B8860B] rounded-md cursor-pointer hover:bg-[#a47709] text-white"
+            className="text-[15px] font-medium text-gray-800 hover:text-[#B8860B] cursor-pointer transition-colors duration-300 uppercase tracking-wide"
             onClick={() => navigate("/contact")}
           >
             CONTACT
@@ -201,7 +201,8 @@ function Nav() {
       )}
 
       {/* MOBILE NAV BAR */}
-      <div className="w-full h-[90px] flex items-center justify-between px-[20px] bg-[#191818] fixed bottom-0 left-0 text-white text-[12px] md:hidden">
+      {/* MOBILE NAV BAR */}
+      <div className="w-full h-[70px] flex items-center justify-between px-[20px] bg-white border-t border-gray-200 fixed bottom-0 left-0 text-gray-600 text-[12px] md:hidden z-50 shadow-[0_-4px_10px_rgba(0,0,0,0.05)]">
 
         <button onClick={() => navigate("/")} className="flex flex-col items-center gap-[2px]">
           <IoMdHome className="w-[28px] h-[28px]" /> Home
@@ -219,7 +220,7 @@ function Nav() {
           <MdOutlineShoppingCartCheckout className="w-[28px] h-[28px]" /> Cart
         </button>
 
-        <p className="absolute w-[18px] h-[18px] bg-white text-black rounded-full flex items-center justify-center text-[9px] top-[8px] right-[18px]">
+        <p className="absolute w-[18px] h-[18px] bg-[#B8860B] text-white rounded-full flex items-center justify-center text-[9px] top-[8px] right-[18px]">
           {getCartCount()}
         </p>
 
