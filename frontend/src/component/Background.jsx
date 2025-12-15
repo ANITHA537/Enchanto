@@ -5,39 +5,20 @@ import back3 from "../assets/back3.png";
 import back4 from "../assets/back4.png";
 
 function Backgound({ heroCount }) {
+   const images = [back2, back1, back3, back4];
   return (
     <>
-      {heroCount === 0 && (
+       {images.map((img, index) => (
         <img
-          src={back2}
-          alt=""
-          className="w-full max-h-[550px] md:max-h-[650px] object-contain"
+           key={index}
+          src={img}
+          alt="Hero Background"
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${
+            heroCount === index ? "opacity-60" : "opacity-0"
+          }`}
         />
-      )}
-
-      {heroCount === 1 && (
-        <img
-          src={back1}
-          alt=""
-          className="w-full max-h-[550px] md:max-h-[650px] object-contain"
-        />
-      )}
-
-      {heroCount === 2 && (
-        <img
-          src={back3}
-          alt=""
-          className="w-full max-h-[550px] md:max-h-[650px] object-contain"
-        />
-      )}
-
-      {heroCount === 3 && (
-        <img
-          src={back4}
-          alt=""
-          className="w-full max-h-[550px] md:max-h-[650px] object-contain"
-        />
-      )}
+    ))}
+      <div className="absolute inset-0 bg-black/30"></div> {/* Overlay for better text readability */}
     </>
   );
 }
