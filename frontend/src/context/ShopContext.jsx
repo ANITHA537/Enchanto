@@ -115,6 +115,18 @@ function ShopContext({ children }) {
     return total;
   };
 
+  // Calculate price based on size
+  const calculatePrice = (basePrice, size) => {
+    if (!size) return basePrice;
+    const multipliers = {
+      "50ml": 1,
+      "100ml": 1.8,
+      "200ml": 3.2
+    };
+    const multiplier = multipliers[size] || 1;
+    return Math.round(basePrice * multiplier);
+  };
+
   // Total cart price
   const getCartAmount = () => {
     let totalAmount = 0;
@@ -123,7 +135,8 @@ function ShopContext({ children }) {
       if (!productInfo) continue;
 
       for (const size in cartItem[prod]) {
-        totalAmount += productInfo.price * cartItem[prod][size];
+        const price = calculatePrice(productInfo.price, size);
+        totalAmount += price * cartItem[prod][size];
       }
     }
     return totalAmount;
@@ -152,6 +165,7 @@ function ShopContext({ children }) {
     updateQuantity,
     getCartAmount,
     loading,
+    calculatePrice,
   };
 
   return (
