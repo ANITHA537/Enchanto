@@ -49,7 +49,10 @@ function ShopContext({ children }) {
         await axios.post(
           serverUrl + "/api/cart/add",
           { productId, size },
-          { withCredentials: true }
+          {
+            withCredentials: true,
+            headers: { token: localStorage.getItem("token") }
+          }
         );
         toast.success("Added to cart");
       } catch (err) {
@@ -67,7 +70,10 @@ function ShopContext({ children }) {
       const result = await axios.post(
         serverUrl + "/api/cart/get",
         {},
-        { withCredentials: true }
+        {
+          withCredentials: true,
+          headers: { token: localStorage.getItem("token") }
+        }
       );
 
       setCartItem(result.data || {});
@@ -96,7 +102,10 @@ function ShopContext({ children }) {
         await axios.post(
           serverUrl + "/api/cart/update",
           { productId, size, quantity },
-          { withCredentials: true }
+          {
+            withCredentials: true,
+            headers: { token: localStorage.getItem("token") }
+          }
         );
       } catch (err) {
         console.log("Update Cart Error:", err);
