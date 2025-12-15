@@ -14,11 +14,13 @@ function Card({ name, image, id, price }) {
       onClick={() => navigate(`/product/${id}`)}
     >
       {/* PRODUCT IMAGE */}
+       <div className="w-full h-[300px] p-4 bg-white relative flex items-center justify-center">
       <img
         src={image || placeholder}
         alt={name}
-        className="w-full h-[330px] object-cover rounded-lg"
-      />
+         className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110"
+        />
+      </div>
 
       {/* PRODUCT NAME */}
       <p className="text-[20px] font-semibold text-[#B8860B] pt-[12px] leading-tight">
