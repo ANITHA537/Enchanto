@@ -14,7 +14,10 @@ function Orders() {
       const result = await axios.post(
         serverUrl + "/api/order/userorder",
         {},
-        { withCredentials: true }
+        {
+          withCredentials: true,
+          headers: { token: localStorage.getItem("token") }
+        }
       );
 
       if (result.data) {
@@ -43,7 +46,7 @@ function Orders() {
 
   return (
     <div className="w-full min-h-[100vh] px-[20px] pb-[80px] bg-white overflow-hidden">
-      
+
       {/* PAGE TITLE */}
       <div className="text-center pt-[120px] mb-[30px]">
         <Title text1={"MY"} text2={"ORDERS"} />
@@ -96,13 +99,12 @@ function Orders() {
             {/* ORDER STATUS */}
             <div className="absolute right-[20px] top-[20px] flex items-center gap-[8px]">
               <span
-                className={`w-[12px] h-[12px] rounded-full ${
-                  item.status === "Delivered"
+                className={`w-[12px] h-[12px] rounded-full ${item.status === "Delivered"
                     ? "bg-green-500"
                     : item.status === "Pending"
-                    ? "bg-yellow-500"
-                    : "bg-blue-500"
-                }`}
+                      ? "bg-yellow-500"
+                      : "bg-blue-500"
+                  }`}
               ></span>
 
               <p className="text-[15px] font-medium text-[#333] capitalize">
