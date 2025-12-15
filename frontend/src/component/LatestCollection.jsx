@@ -44,7 +44,7 @@ function LatestCollection() {
         </p>
       </div>
 
-      <div className="w-full flex justify-center flex-wrap gap-[30px] mt-[35px]">
+      <div className="w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 gap-y-10 mt-10 px-4 md:px-8">
         {latestProducts.map((item) => (
           <Card
             key={item._id}
