@@ -28,10 +28,15 @@ function Home() {
     <div className="overflow-x-hidden relative top-[70px]">
 
       {/* 🔥 Hero Section */}
-      <div className="w-full min-h-[70vh] bg-gradient-to-l from-[#141414] to-[#0c2025] flex flex-col md:flex-row items-center justify-between">
-        <Hero heroCount={heroCount} setHeroCount={setHeroCount} heroData={heroData[heroCount]} />
-        <div className="w-full md:w-[55%] flex justify-center px-4">
-          <Backgound heroCount={heroCount} />
+      <div className="w-full min-h-[85vh] bg-gradient-to-r from-[#0f172a] to-[#1e293b] relative overflow-hidden flex items-center">
+        {/* Background Image with Fade Transition */}
+        <div className="absolute inset-0 w-full h-full">
+           <Backgound heroCount={heroCount} />
+        </div>
+        
+        {/* Content Overlay */}
+        <div className="relative z-10 w-full flex flex-col md:flex-row items-center justify-between px-4 md:px-16">
+            <Hero heroCount={heroCount} setHeroCount={setHeroCount} heroData={heroData[heroCount]} />
         </div>
       </div>
 
